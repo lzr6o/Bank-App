@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.learning.Bank.common.ApiRestResponse;
 import com.learning.Bank.entity.AppUser;
@@ -43,6 +44,11 @@ public class AppUserController {
 		return ApiRestResponse.success(appUser);
 	}
 
-	// 
-
+	// customer create account
+	// To create account for the customer 
+	@PostMapping("/customer/{customerID}/account")
+	@ResponseBody
+	public ApiRestResponse createAccount(@PathVariable Integer customerID, ) throws BankException {
+		
+	}
 }
