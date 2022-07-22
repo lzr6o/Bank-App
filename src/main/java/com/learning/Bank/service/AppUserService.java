@@ -8,14 +8,16 @@ import com.learning.Bank.exception.BankException;
 
 public interface AppUserService {
 
-	AppUser register(AppUser appUser) throws BankException;
+	AppUser register(AppUser appUser);
 	
-	Role saveRole(Role role) throws BankException;
+	Role saveRole(Role role);
 	
 	void addRoleToUser(String username, String roleName);
 	
 	AppUser getUser(String username);
 	
 	List<AppUser> getUsers();
+
+	AppUser authenticate(String username, String password);
 	
 }

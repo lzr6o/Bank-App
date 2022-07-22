@@ -16,34 +16,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.learning.Bank.common.ApiRestResponse;
-import com.learning.Bank.entity.Customer;
+import com.learning.Bank.entity.AppUser;
 import com.learning.Bank.exception.BankException;
-import com.learning.Bank.repository.CustomerRepository;
+import com.learning.Bank.exception.BankExceptionEnum;
 import com.learning.Bank.service.AppUserService;
 
 @RestController
 public class AppUserController {
 
 	@Autowired
-	AppUserService customerService;
+	AppUserService appUserService;
 
 	// customer registration
 	// to register the user with basic details like
 	@PostMapping("/customer/register")
 	@ResponseBody
-	public ApiRestResponse register(@RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("fullname") String fullname) throws BankException {
-		customerService.register(username, password, fullname);
-		return ApiRestResponse.success(201);
+	public ApiRestResponse register(@RequestBody AppUser user) throws BankException {
+		AppUser appUser = appUserService.register(user);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.REGISTER_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
 	}
 
 	// customer authenticate
 	// to validate the customer is registered in the system
 	@PostMapping("/customer/authenticate")
-	public Customer authenticate(@RequestBody String username, String password) {
-		return customerRepository.findByUsernameAndPassword(username, password);
+	public ApiRestResponse authenticate(@RequestBody String username, String password) throws BankException {
+		AppUser appUser = appUserService.authenticate(username, password);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.AUTHENTICATE_FAILED);
+		}
+		return ApiRestResponse.success(201);
 	}
 
-	//
+	// 
 
 }

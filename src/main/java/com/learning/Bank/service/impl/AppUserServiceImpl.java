@@ -17,18 +17,22 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Autowired
 	AppUserRepository appUserRepository;
-	
+
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Override
-	public AppUser register(AppUser appUser) throws BankException {
-		
+	public AppUser register(AppUser appUser) {
 		return appUserRepository.save(appUser);
 	}
 
 	@Override
-	public Role saveRole(Role role) throws BankException {
+	public AppUser authenticate(String username, String password) {
+		return appUserRepository.findByUsernameAndPassword(username, password);
+	}
+
+	@Override
+	public Role saveRole(Role role) {
 		return roleRepository.save(role);
 	}
 
@@ -50,5 +54,4 @@ public class AppUserServiceImpl implements AppUserService {
 		return appUserRepository.findAll();
 	}
 
-	
 }

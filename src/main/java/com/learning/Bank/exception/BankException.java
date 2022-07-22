@@ -1,6 +1,7 @@
 package com.learning.Bank.exception;
 
 public class BankException extends RuntimeException{
+	
 	private final Integer code;
     private final String message;
 
