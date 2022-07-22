@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.learning.Bank.common.ApiRestResponse;
+import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
@@ -48,7 +49,8 @@ public class AppUserController {
 	// To create account for the customer 
 	@PostMapping("/customer/{customerID}/account")
 	@ResponseBody
-	public ApiRestResponse createAccount(@PathVariable Integer customerID, ) throws BankException {
+	public ApiRestResponse createAccount(@PathVariable Integer customerID, @RequestParam("accountType") AccountType accountType, @RequestParam("accountBalance") double accountBalance, @RequestParam("approved") String approved) throws BankException {
 		
+		return ApiRestResponse.success();
 	}
 }

@@ -4,9 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,20 +21,15 @@ import org.hibernate.annotations.CreationTimestamp;
 @Table(name = "account")
 public class Account {
 
-	enum Type {
-		SB, CA
-	};
-
-	enum Status {
-		ENABLE, DISABLE
-	}
-
+	@ManyToOne
+	@JoinColumn(name = "appUser_id", nullable = false)
+	private AppUser appUser;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
-	
 	@Column(name = "account_number")
 	private long accountNumber;
 
@@ -41,11 +40,12 @@ public class Account {
 	private String approved = "NO";
 
 	@Column(name = "account_type")
-	@Enumerated
-	private Type accountType;
+	@Enumerated(EnumType.STRING)
+	private AccountType accountType;
 
 	@Column(name = "account_status")
-	private Status accountStatus;
+	@Enumerated(EnumType.STRING)
+	private AccountStatus accountStatus;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,15 +56,11 @@ public class Account {
 
 	}
 
-	public Account(long accountNumber, double accountBalance, String approved, Type accountType, Status accountStatus,
-			Date dateOfCreation) {
+	public Account(AccountType accountType, double accountBalance, String approved) {
 		super();
-		this.accountNumber = accountNumber;
 		this.accountBalance = accountBalance;
 		this.approved = approved;
 		this.accountType = accountType;
-		this.accountStatus = accountStatus;
-		this.dateOfCreation = dateOfCreation;
 	}
 
 	public int getId() {
@@ -99,19 +95,19 @@ public class Account {
 		this.approved = approved;
 	}
 
-	public Type getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(Type accountType) {
+	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
 
-	public Status getAccountStatus() {
+	public AccountStatus getAccountStatus() {
 		return accountStatus;
 	}
 
-	public void setAccountStatus(Status accountStatus) {
+	public void setAccountStatus(AccountStatus accountStatus) {
 		this.accountStatus = accountStatus;
 	}
 
