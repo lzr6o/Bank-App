@@ -3,6 +3,7 @@ package com.learning.Bank.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,12 +18,16 @@ public class AppUser {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
 	
+	@Column(name = "username")
 	private String username;
 	
+	@Column(name = "password")
 	private String password;
 	
+	@Column(name = "fullname")
 	private String fullname;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
