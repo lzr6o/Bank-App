@@ -7,5 +7,5 @@ import com.learning.Bank.entity.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>{
-
+	
 }

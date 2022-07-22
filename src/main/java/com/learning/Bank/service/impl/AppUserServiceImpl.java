@@ -68,8 +68,11 @@ public class AppUserServiceImpl implements AppUserService {
 		if (!appUser.isPresent()) {
 			throw new BankException(BankExceptionEnum.USER_NOT_FIND);
 		}
+		
 		Account account = new Account(accountType, accountBalance, approved);
 		
+		accountRepository.save(account);
+		return account;
 	}
 
 }

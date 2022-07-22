@@ -88,6 +88,14 @@ public class AppUser {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+	
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
 
 	@Override
 	public String toString() {
