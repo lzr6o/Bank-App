@@ -2,7 +2,7 @@ package com.learning.Entity;
 
 
 
-public class Customer {
+public class User {
 
 	int id;
 	String name;
