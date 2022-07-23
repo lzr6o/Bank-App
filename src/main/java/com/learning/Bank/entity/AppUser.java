@@ -1,15 +1,17 @@
 package com.learning.Bank.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,9 +21,11 @@ import javax.persistence.Table;
 public class AppUser {
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Role> roles = new ArrayList<>();
+	@Enumerated(EnumType.STRING)
+	private Set<RoleType> roles;
 
-	@OneToMany(mappedBy = "appUser")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "app_user_id", referencedColumnName = "id")
 	private Set<Account> accounts;
 
 	@Id
@@ -81,11 +85,11 @@ public class AppUser {
 		this.fullname = fullname;
 	}
 
-	public List<Role> getRoles() {
+	public Set<RoleType> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<RoleType> roles) {
 		this.roles = roles;
 	}
 	

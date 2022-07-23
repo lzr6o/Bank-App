@@ -6,7 +6,9 @@ public enum BankExceptionEnum {
 	LOGIN_FAILED(101, "login failed"),
 	AUTHENTICATE_FAILED(102, "authenticate failed"),
 	USER_NOT_FIND(103, "user not find"),
-	ACCOUNT_CREATED_FAILED(104, "can not create account");
+	ACCOUNT_CREATED_FAILED(104, "Account cannot be created"),
+	ACCOUNT_NUMBER_WRONG(105, "Please check account number"),
+	ACCOUNT_APPROVED_FAILED(106, "Account approved failed");
 
 	Integer code;
 	String msg;

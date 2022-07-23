@@ -22,5 +22,7 @@ public interface AppUserService {
 	AppUser authenticate(String username, String password);
 
 	Account createAccount(Integer customerID, AccountType accountType, double accountBalance, String approved);
+
+	Account approveAccount(Integer customerID, Integer accountNumber, String approved);
 	
 }

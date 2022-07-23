@@ -20,10 +20,6 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "account")
 public class Account {
-
-	@ManyToOne
-	@JoinColumn(name = "appUser_id")
-	private AppUser appUser;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

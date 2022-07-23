@@ -2,6 +2,7 @@ package com.learning.Bank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,4 +58,19 @@ public class AppUserController {
 		}
 		return ApiRestResponse.success(account);
 	}
+	
+	// Staff
+	// to approve the account which is created by customer
+	@PutMapping("/customer/{customerID}/account/{accountNo}")
+	@ResponseBody
+	public ApiRestResponse approveAccount(@PathVariable Integer customerID, @PathVariable Integer accountNo, @RequestParam("approved") String approved) throws BankException {
+		Account account = appUserService.approveAccount(customerID, accountNo, approved);
+		if (account == null) {
+			return ApiRestResponse.error(BankExceptionEnum.ACCOUNT_APPROVED_FAILED);
+		}
+		return ApiRestResponse.success(account);
+	}
+
+	
+	
 }
