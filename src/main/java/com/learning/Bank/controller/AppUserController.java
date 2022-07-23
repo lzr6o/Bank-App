@@ -1,5 +1,7 @@
 package com.learning.Bank.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.learning.Bank.common.ApiRestResponse;
@@ -71,6 +74,17 @@ public class AppUserController {
 		return ApiRestResponse.success(account);
 	}
 
+	// to get all the accounts which are opened by the customer
+	// the end point should return an array of account, balance, type and status
+	@GetMapping("customer/{customerID}/account")
+	@ResponseBody
+	public ApiRestResponse getAllAccounts(@PathVariable Integer customerID) throws BankException {
+		List<Account> accounts = appUserService.getAllAccounts(customerID);
+		if (accounts == null) {
+			return ApiRestResponse.error(BankExceptionEnum.ACCOUNT_NOT_FOUND);
+		}
+		return ApiRestResponse.success(accounts);
+	}
 	
 	
 }

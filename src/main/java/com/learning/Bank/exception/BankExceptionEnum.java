@@ -8,7 +8,8 @@ public enum BankExceptionEnum {
 	USER_NOT_FIND(103, "user not find"),
 	ACCOUNT_CREATED_FAILED(104, "Account cannot be created"),
 	ACCOUNT_NUMBER_WRONG(105, "Please check account number"),
-	ACCOUNT_APPROVED_FAILED(106, "Account approved failed");
+	ACCOUNT_APPROVED_FAILED(106, "Account approved failed"),
+	ACCOUNT_NOT_FOUND(107, "Account not found");
 
 	Integer code;
 	String msg;

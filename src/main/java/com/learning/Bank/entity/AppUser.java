@@ -1,13 +1,12 @@
 package com.learning.Bank.entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +31,7 @@ public class AppUser {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "app_user_id", referencedColumnName = "id")
-	private Set<Account> accounts;
+	private List<Account> accounts;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,11 +98,11 @@ public class AppUser {
 		this.roles = roles;
 	}
 
-	public Set<Account> getAccounts() {
+	public List<Account> getAccounts() {
 		return accounts;
 	}
 
-	public void setAccounts(Set<Account> accounts) {
+	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
 

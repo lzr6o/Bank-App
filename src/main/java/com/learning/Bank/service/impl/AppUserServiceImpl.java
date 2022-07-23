@@ -1,5 +1,6 @@
 package com.learning.Bank.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -67,7 +68,7 @@ public class AppUserServiceImpl implements AppUserService {
 	public Account approveAccount(Integer customerID, Integer accountNumber, String approved) {
 		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
 		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
-		Set<Account> accounts = appUser.getAccounts();
+		List<Account> accounts = appUser.getAccounts();
 		Account currentAccount = null;
 		for (Account account : accounts) {
 			if (account.getAccountNumber() == accountNumber) {
@@ -78,7 +79,16 @@ public class AppUserServiceImpl implements AppUserService {
 			throw new BankException(BankExceptionEnum.ACCOUNT_NUMBER_WRONG);
 		}
 		currentAccount.setApproved(approved);
+		accountRepository.save(currentAccount);
 		return currentAccount;
+	}
+	
+	@Override
+	public List<Account> getAllAccounts(Integer customerID) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Account> accounts = appUser.getAccounts();
+		return accounts;
 	}
 	
 }
