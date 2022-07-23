@@ -1,6 +1,5 @@
 package com.learning.Bank.service.impl;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -102,32 +101,18 @@ public class AppUserServiceImpl implements AppUserService {
 	public AppUser updateCustomer(Integer customerID, AppUser user) {
 		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
 		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
-		if (appUser.getId() != customerID) {
-			throw new BankException(BankExceptionEnum.USER_NOT_MATCH);
+		if (appUser.getUsername() != user.getUsername()) {
+			throw new BankException(BankExceptionEnum.USER_INFO_NOT_MATCH);
 		}
-		Class cls = null;
-		try {
-			cls = Class.forName("AppUser");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Field[] fields = cls.getDeclaredFields();
-		for (Field field : fields) {
-			field.setAccessible(true);
-			switch (field.getName()) {
-			case "username":
-				appUser.setUsername(user.getUsername());
-				break;
-			case "password":
-				appUser.setPassword(user.getPassword());
-				break;
-			case "fullname":
-				appUser.setFullname(user.getFullname());
-				break;
-			case ""
-			}
-		}
+		appUser.setUsername(user.getUsername());
+		appUser.setPassword(user.getPassword());
+		appUser.setFullname(user.getFullname());
+		appUser.setPhone(user.getPhone());
+		appUser.setPan(user.getPan());
+		appUser.setAadhar(user.getAadhar());
+		appUser.setSecretQuestion(user.getSecretQuestion());
+		appUser.setSecretAnswer(user.getSecretAnswer());
+		appUserRepository.save(appUser);
 		return appUser;
 	}
 }
