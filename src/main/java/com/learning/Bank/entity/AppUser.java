@@ -33,6 +33,18 @@ public class AppUser {
 	@JoinColumn(name = "app_user_id", referencedColumnName = "id")
 	private List<Account> accounts;
 
+	public void addAccount(Account account) {
+		this.accounts.add(account);
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "app_user_id", referencedColumnName = "id")
+	private List<Beneficiary> beneficiarys;
+	
+	public void addBeneficiary(Beneficiary beneficiary) {
+		this.beneficiarys.add(beneficiary);
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -159,6 +171,14 @@ public class AppUser {
 
 	public void setSecretAnswer(String secretAnswer) {
 		this.secretAnswer = secretAnswer;
+	}
+	
+	public List<Beneficiary> getBeneficiarys() {
+		return beneficiarys;
+	}
+
+	public void setBeneficiarys(List<Beneficiary> beneficiarys) {
+		this.beneficiarys = beneficiarys;
 	}
 
 	@Override

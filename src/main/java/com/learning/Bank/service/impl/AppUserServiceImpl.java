@@ -72,6 +72,7 @@ public class AppUserServiceImpl implements AppUserService {
 		for (Account account : accounts) {
 			if (account.getAccountNumber() == accountNumber) {
 				currentAccount = account;
+				break;
 			}
 		}
 		if (currentAccount == null) {
@@ -114,5 +115,23 @@ public class AppUserServiceImpl implements AppUserService {
 		appUser.setSecretAnswer(user.getSecretAnswer());
 		appUserRepository.save(appUser);
 		return appUser;
+	}
+	
+	@Override
+	public Account getCustomerAccount(Integer customerID, Integer accountID) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Account> accounts = appUser.getAccounts();
+		Account currentAccount = null;
+		for (Account account : accounts) {
+			if (account.getId() == accountID) {
+				currentAccount = account;
+				break;
+			}
+		}
+		if (currentAccount == null) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_NOT_FOUND);
+		}
+		return currentAccount;
 	}
 }

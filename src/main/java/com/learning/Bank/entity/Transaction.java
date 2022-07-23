@@ -15,8 +15,6 @@ import javax.persistence.Table;
 @Table(name = "transaction")
 public class Transaction {
 	
-	
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -86,7 +84,11 @@ public class Transaction {
 	public void setCardType(CardType cardType) {
 		this.cardType = cardType;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Transaction [id=" + id + ", date=" + date + ", reference=" + reference + ", amount=" + amount
+				+ ", cardType=" + cardType + "]";
+	}
 	
 }

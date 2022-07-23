@@ -51,7 +51,7 @@ public class Account {
 
 	@Column(name = "account_status")
 	@Enumerated(EnumType.STRING)
-	private AccountStatus accountStatus = AccountStatus.ENABLE;
+	private Status accountStatus = Status.ENABLE;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -63,7 +63,7 @@ public class Account {
 	}
 
 	public Account(long accountNumber, double accountBalance, String approved, AccountType accountType,
-			AccountStatus accountStatus, Date dateOfCreation) {
+			Status accountStatus, Date dateOfCreation) {
 		super();
 		this.accountNumber = accountNumber;
 		this.accountBalance = accountBalance;
@@ -113,11 +113,11 @@ public class Account {
 		this.accountType = accountType;
 	}
 
-	public AccountStatus getAccountStatus() {
+	public Status getAccountStatus() {
 		return accountStatus;
 	}
 
-	public void setAccountStatus(AccountStatus accountStatus) {
+	public void setAccountStatus(Status accountStatus) {
 		this.accountStatus = accountStatus;
 	}
 

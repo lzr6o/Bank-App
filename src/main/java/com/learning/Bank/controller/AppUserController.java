@@ -42,7 +42,8 @@ public class AppUserController {
 	// to validate the customer is registered in the system
 	@PostMapping("/customer/authenticate")
 	@ResponseBody
-	public ApiRestResponse authenticate(@RequestParam("username") String username, @RequestParam("password") String password) throws BankException {
+	public ApiRestResponse authenticate(@RequestParam("username") String username,
+			@RequestParam("password") String password) throws BankException {
 		AppUser appUser = appUserService.authenticate(username, password);
 		if (appUser == null) {
 			return ApiRestResponse.error(BankExceptionEnum.AUTHENTICATE_FAILED);
@@ -54,19 +55,22 @@ public class AppUserController {
 	// To create account for the customer
 	@PostMapping("/customer/{customerID}/account")
 	@ResponseBody
-	public ApiRestResponse createAccount(@PathVariable Integer customerID, @RequestParam("accountType") AccountType accountType, @RequestParam("accountBalance") double accountBalance, @RequestParam("approved") String approved) throws BankException {
+	public ApiRestResponse createAccount(@PathVariable Integer customerID,
+			@RequestParam("accountType") AccountType accountType, @RequestParam("accountBalance") double accountBalance,
+			@RequestParam("approved") String approved) throws BankException {
 		Account account = appUserService.createAccount(customerID, accountType, accountBalance, approved);
 		if (account == null) {
 			return ApiRestResponse.error(BankExceptionEnum.ACCOUNT_CREATED_FAILED);
 		}
 		return ApiRestResponse.success(account);
 	}
-	
+
 	// Staff
 	// to approve the account which is created by customer
 	@PutMapping("/customer/{customerID}/account/{accountNo}")
 	@ResponseBody
-	public ApiRestResponse approveAccount(@PathVariable Integer customerID, @PathVariable Integer accountNo, @RequestParam("approved") String approved) throws BankException {
+	public ApiRestResponse approveAccount(@PathVariable Integer customerID, @PathVariable Integer accountNo,
+			@RequestParam("approved") String approved) throws BankException {
 		Account account = appUserService.approveAccount(customerID, accountNo, approved);
 		if (account == null) {
 			return ApiRestResponse.error(BankExceptionEnum.ACCOUNT_APPROVED_FAILED);
@@ -74,8 +78,7 @@ public class AppUserController {
 		return ApiRestResponse.success(account);
 	}
 
-	// to get all the accounts which are opened by the customer
-	// the end point should return an array of account, balance, type and status
+	// to get all the accounts which are opened by the customer the end point should return an array of account, balance, type and status
 	@GetMapping("customer/{customerID}/account")
 	@ResponseBody
 	public ApiRestResponse getAllAccounts(@PathVariable Integer customerID) throws BankException {
@@ -85,7 +88,7 @@ public class AppUserController {
 		}
 		return ApiRestResponse.success(accounts);
 	}
-	
+
 	// to return customer by specifying id
 	@GetMapping("customer/{customerID}")
 	@ResponseBody
@@ -96,17 +99,35 @@ public class AppUserController {
 		}
 		return ApiRestResponse.success(appUser);
 	}
-	
-	// Should update the user customer in the payload which shall match the username and updated the existing customer with the new details
+
+	// should update the user customer in the payload which shall match the username and updated the existing customer with the new details
 	@PutMapping("customer/{customerID}")
 	@ResponseBody
-	public ApiRestResponse updateCustomer(@PathVariable Integer customerID, @RequestBody AppUser user) throws BankException {
+	public ApiRestResponse updateCustomer(@PathVariable Integer customerID, @RequestBody AppUser user)
+			throws BankException {
 		AppUser appUser = appUserService.updateCustomer(customerID, user);
 		if (appUser == null) {
 			return ApiRestResponse.error(BankExceptionEnum.USER_UPDATE_FAILED);
 		}
 		return ApiRestResponse.success(appUser);
 	}
-	
-	
+
+	// should get the customer account with the specified account number :accountID when valid
+	@GetMapping("customer/{customerID}/account/{accountID}")
+	@ResponseBody
+	public ApiRestResponse getCustomerAccount(@PathVariable Integer customerID, @PathVariable Integer accountID)
+			throws BankException {
+		Account account = appUserService.getCustomerAccount(customerID, accountID);
+		if (account == null) {
+			return ApiRestResponse.error(BankExceptionEnum.ACCOUNT_NOT_FOUND);
+		}
+		return ApiRestResponse.success(account);
+	}
+
+	// Should add the beneficiary for the customer with valid account number
+	@PostMapping("customer/:customerID/beneficiary")
+	@ResponseBody
+	public ApiRestResponse addBeneficiary(@PathVariable Integer customerID) throws BankException {
+		
+	}
 }

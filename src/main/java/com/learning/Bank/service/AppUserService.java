@@ -21,6 +21,8 @@ public interface AppUserService {
 	AppUser getCustomer(Integer customerID);
 
 	AppUser updateCustomer(Integer customerID, AppUser appUser);
+
+	Account getCustomerAccount(Integer customerID, Integer accountID);
 	
 	
 }

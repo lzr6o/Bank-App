@@ -1,5 +1,5 @@
 package com.learning.Bank.entity;
 
-public enum AccountStatus {
+public enum Status {
 	ENABLE, DISABLE
 }
