@@ -1,6 +1,5 @@
 package com.learning.Bank.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -33,35 +32,14 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Override
 	public AppUser register(AppUser appUser) {
+		Role role = roleRepository.findByName("CUSTOMER");
+		appUser.addRole(role);
 		return appUserRepository.save(appUser);
 	}
 
 	@Override
 	public AppUser authenticate(String username, String password) {
 		return appUserRepository.findByUsernameAndPassword(username, password);
-	}
-
-	@Override
-	public Role saveRole(Role role) {
-		return roleRepository.save(role);
-	}
-
-	@Override
-	public void addRoleToUser(String username, String roleName) {
-		AppUser appUser = appUserRepository.findByUsername(username);
-		Role role = roleRepository.findByName(roleName);
-		appUser.getRoles().add(role);
-		appUserRepository.save(appUser);
-	}
-
-	@Override
-	public AppUser getUser(String username) {
-		return appUserRepository.findByUsername(username);
-	}
-
-	@Override
-	public List<AppUser> getUsers() {
-		return appUserRepository.findAll();
 	}
 
 	@Override
