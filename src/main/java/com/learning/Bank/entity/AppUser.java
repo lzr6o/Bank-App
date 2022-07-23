@@ -47,6 +47,21 @@ public class AppUser {
 	@Column(name = "fullname")
 	private String fullname;
 
+	@Column(name = "phone")
+	private String phone;
+	
+	@Column(name = "pan")
+	private String pan;
+	
+	@Column(name = "aadhar")
+	private String aadhar;
+	
+	@Column(name = "secret_question")
+	private String secretQuestion;
+	
+	@Column(name = "secret_answer")
+	private String secretAnswer;
+	
 	public AppUser() {
 
 	}
@@ -106,10 +121,51 @@ public class AppUser {
 		this.accounts = accounts;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPan() {
+		return pan;
+	}
+
+	public void setPan(String pan) {
+		this.pan = pan;
+	}
+
+	public String getAadhar() {
+		return aadhar;
+	}
+
+	public void setAadhar(String aadhar) {
+		this.aadhar = aadhar;
+	}
+
+	public String getSecretQuestion() {
+		return secretQuestion;
+	}
+
+	public void setSecretQuestion(String secretQuestion) {
+		this.secretQuestion = secretQuestion;
+	}
+
+	public String getSecretAnswer() {
+		return secretAnswer;
+	}
+
+	public void setSecretAnswer(String secretAnswer) {
+		this.secretAnswer = secretAnswer;
+	}
+
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
-				+ "]";
+		return "AppUser [roles=" + roles + ", accounts=" + accounts + ", id=" + id + ", username=" + username
+				+ ", password=" + password + ", fullname=" + fullname + ", phone=" + phone + ", pan=" + pan
+				+ ", aadhar=" + aadhar + ", secretQuestion=" + secretQuestion + ", secretAnswer=" + secretAnswer + "]";
 	}
 
 }

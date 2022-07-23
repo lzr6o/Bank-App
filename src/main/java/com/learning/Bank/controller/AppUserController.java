@@ -86,5 +86,25 @@ public class AppUserController {
 		return ApiRestResponse.success(accounts);
 	}
 	
+	// to return customer by specifying id
+	@GetMapping("customer/{customerID}")
+	@ResponseBody
+	public ApiRestResponse getCustomer(@PathVariable Integer customerID) throws BankException {
+		AppUser appUser = appUserService.getCustomer(customerID);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.USER_NOT_FIND);
+		}
+		return ApiRestResponse.success(appUser);
+	}
 	
+	// Should update the user customer in the payload which shall match the username and updated the existing customer with the new details
+	@PutMapping("customer/{customerID}")
+	@ResponseBody
+	public ApiRestResponse updateCustomer(@PathVariable Integer customerID, @RequestBody AppUser user) throws BankException {
+		AppUser appUser = appUserService.updateCustomer(customerID, user);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.USER_UPDATE_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
+	}
 }

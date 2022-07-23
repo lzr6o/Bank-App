@@ -17,6 +17,10 @@ public interface AppUserService {
 	Account approveAccount(Integer customerID, Integer accountNumber, String approved);
 
 	List<Account> getAllAccounts(Integer customerID);
+
+	AppUser getCustomer(Integer customerID);
+
+	AppUser updateCustomer(Integer customerID, AppUser appUser);
 	
 	
 }
