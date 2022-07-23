@@ -2,6 +2,7 @@ package com.learning.Bank.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	AccountRepository accountRepository;
 
@@ -61,18 +62,26 @@ public class AppUserServiceImpl implements AppUserService {
 	public List<AppUser> getUsers() {
 		return appUserRepository.findAll();
 	}
-	
+
 	@Override
 	public Account createAccount(Integer customerID, AccountType accountType, double accountBalance, String approved) {
-		Optional<AppUser> appUser = appUserRepository.findById(customerID);
-		if (!appUser.isPresent()) {
-			throw new BankException(BankExceptionEnum.USER_NOT_FIND);
-		}
-		
-		Account account = new Account(accountType, accountBalance, approved);
-		
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+	    int accountNumber = generateRandomAccountNumber(8);
+		Account account = new Account();
+		account.setAccountNumber(accountNumber);
+		account.setAccountType(accountType);
+		account.setAccountBalance(accountBalance);
+		account.setApproved(approved);
+		appUser.getAccounts().add(account);
 		accountRepository.save(account);
 		return account;
 	}
 
+	// Generates a random int with n digits
+	public int generateRandomAccountNumber(int n) {
+	    int m = (int) Math.pow(10, n - 1);
+	    return m + new Random().nextInt(9 * m);
+	}
+	
 }

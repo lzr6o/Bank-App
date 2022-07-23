@@ -22,7 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Account {
 
 	@ManyToOne
-	@JoinColumn(name = "appUser_id", nullable = false)
+	@JoinColumn(name = "appUser_id")
 	private AppUser appUser;
 	
 	@Id
@@ -45,7 +45,7 @@ public class Account {
 
 	@Column(name = "account_status")
 	@Enumerated(EnumType.STRING)
-	private AccountStatus accountStatus;
+	private AccountStatus accountStatus = AccountStatus.ENABLE;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,11 +56,15 @@ public class Account {
 
 	}
 
-	public Account(AccountType accountType, double accountBalance, String approved) {
+	public Account(long accountNumber, double accountBalance, String approved, AccountType accountType,
+			AccountStatus accountStatus, Date dateOfCreation) {
 		super();
+		this.accountNumber = accountNumber;
 		this.accountBalance = accountBalance;
 		this.approved = approved;
 		this.accountType = accountType;
+		this.accountStatus = accountStatus;
+		this.dateOfCreation = dateOfCreation;
 	}
 
 	public int getId() {
