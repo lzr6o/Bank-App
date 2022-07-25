@@ -213,6 +213,9 @@ public class AppUserServiceImpl implements AppUserService {
 		if (fromAcc.getAccountBalance() < payload.getAmount()) {
 			throw new BankException(BankExceptionEnum.ACCOUNT_BALANCE_INSUFFICIENT);
 		}
+		
 		return accounts;
 	}
+	
+	
 }

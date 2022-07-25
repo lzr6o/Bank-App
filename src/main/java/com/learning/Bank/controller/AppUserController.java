@@ -161,6 +161,9 @@ public class AppUserController {
 	@PutMapping("customer/transfer")
 	@ResponseBody
 	public ApiRestResponse transfer(@RequestParam("customerID") Integer customerID, @RequestBody Payload payload) {
-		
+		List<Account> accounts = appUserService.transfer(customerID, payload);
+		return ApiRestResponse.success(accounts);
 	}
+	
+	// 
 }
