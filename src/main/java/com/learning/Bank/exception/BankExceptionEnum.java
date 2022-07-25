@@ -15,7 +15,8 @@ public enum BankExceptionEnum {
 	BENEFICIARY_ADD_FAILED(110, "Beneficiary add failed"),
 	BENEFICIARY_NOT_FOUND(111, "Beneficiary not found"),
 	BENEFICIARY_DELETE_FAILED(112, "Beneficiary delete failed"),
-	ACCOUNT_BALANCE_INSUFFICIENT(113, "Account balance insufficient");
+	ACCOUNT_BALANCE_INSUFFICIENT(113, "Account balance insufficient"),
+	PASSWORD_UPDATE_FAILED(114, "Password reset failed");
 
 	Integer code;
 	String msg;

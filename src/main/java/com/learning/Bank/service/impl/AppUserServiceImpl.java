@@ -226,5 +226,14 @@ public class AppUserServiceImpl implements AppUserService {
 		return accounts;
 	}
 	
-	
+	@Override
+	public AppUser resetPassword(String username, String password) {
+		AppUser appUser = appUserRepository.findByUsername(username);
+		if (appUser == null) {
+			throw new BankException(BankExceptionEnum.USER_NOT_FIND);
+		}
+		appUser.setPassword(password);
+		appUserRepository.save(appUser);
+		return appUser;
+	}
 }

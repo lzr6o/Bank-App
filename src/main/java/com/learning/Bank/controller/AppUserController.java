@@ -168,7 +168,17 @@ public class AppUserController {
 	// Customer forget security question answer
 	@GetMapping("customer/{username}/forgot/question/answer")
 	@ResponseBody
-	public ApiRestResponse forget() {
+	public ApiRestResponse validSecurity() {
 		
+	}
+	
+	@PutMapping("customer/{username}/forgot")
+	@ResponseBody
+	public ApiRestResponse resetPassword(@PathVariable String username, @RequestParam("password") String password) {
+		AppUser appUser = appUserService.resetPassword(username, password);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.PASSWORD_UPDATE_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
 	}
 }
