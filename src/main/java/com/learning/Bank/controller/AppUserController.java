@@ -165,5 +165,10 @@ public class AppUserController {
 		return ApiRestResponse.success(accounts);
 	}
 	
-	// 
+	// Customer forget security question answer
+	@GetMapping("customer/{username}/forgot/question/answer")
+	@ResponseBody
+	public ApiRestResponse forget() {
+		
+	}
 }

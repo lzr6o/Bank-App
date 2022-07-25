@@ -18,6 +18,7 @@ import com.learning.Bank.exception.BankExceptionEnum;
 import com.learning.Bank.repository.AccountRepository;
 import com.learning.Bank.repository.AppUserRepository;
 import com.learning.Bank.repository.BeneficiaryRepository;
+import com.learning.Bank.repository.PayloadRepository;
 import com.learning.Bank.repository.RoleRepository;
 import com.learning.Bank.service.AppUserService;
 
@@ -35,6 +36,9 @@ public class AppUserServiceImpl implements AppUserService {
 
 	@Autowired
 	BeneficiaryRepository beneficiaryRepository;
+	
+	@Autowired
+	PayloadRepository payloadRepository;
 	
 	@Override
 	public AppUser register(AppUser appUser) {
@@ -213,7 +217,12 @@ public class AppUserServiceImpl implements AppUserService {
 		if (fromAcc.getAccountBalance() < payload.getAmount()) {
 			throw new BankException(BankExceptionEnum.ACCOUNT_BALANCE_INSUFFICIENT);
 		}
-		
+		fromAcc.setAccountBalance(fromAcc.getAccountBalance() - payload.getAmount());
+		toAcc.setAccountBalance(toAcc.getAccountBalance() + payload.getAmount());
+		accountRepository.save(fromAcc);
+		accountRepository.save(toAcc);
+		appUser.addPayload(payload);
+		appUserRepository.save(appUser);
 		return accounts;
 	}
 	
