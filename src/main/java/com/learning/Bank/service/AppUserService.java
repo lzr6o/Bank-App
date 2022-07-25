@@ -28,4 +28,8 @@ public interface AppUserService {
 	AppUser addCustomerBeneficiary(Integer customerID, long accountNumber, Beneficiary beneficiary);
 	
 	List<Beneficiary> getCustomerBeneficiary(Integer customerID);
+
+	AppUser deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID);
+	
+	
 }

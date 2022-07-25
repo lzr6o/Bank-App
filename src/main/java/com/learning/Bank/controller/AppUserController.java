@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -144,5 +145,10 @@ public class AppUserController {
 		return ApiRestResponse.success(beneficiarys);
 	}
 	
-	
+	// Should delete customer beneficiary
+	@DeleteMapping()
+	@ResponseBody
+	public ApiRestResponse deleteBeneficiary(@PathVariable Integer customerID, @PathVariable Integer beneficiaryID) throws BankException {
+		
+	}
 }
