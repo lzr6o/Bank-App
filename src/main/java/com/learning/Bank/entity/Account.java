@@ -1,12 +1,18 @@
 package com.learning.Bank.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,21 +22,20 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "account")
 public class Account {
-
-	enum Type {
-		SB, CA
-	};
-
-	enum Status {
-		ENABLE, DISABLE
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "account_id", referencedColumnName = "id")
+	private List<Transaction> transactions;
+	
+	public void addTransaction(Transaction transaction) {
+		this.transactions.add(transaction);
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
-	
 	@Column(name = "account_number")
 	private long accountNumber;
 
@@ -41,11 +46,12 @@ public class Account {
 	private String approved = "NO";
 
 	@Column(name = "account_type")
-	@Enumerated
-	private Type accountType;
+	@Enumerated(EnumType.STRING)
+	private AccountType accountType;
 
 	@Column(name = "account_status")
-	private Status accountStatus;
+	@Enumerated(EnumType.STRING)
+	private Status accountStatus = Status.ENABLE;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,8 +62,8 @@ public class Account {
 
 	}
 
-	public Account(long accountNumber, double accountBalance, String approved, Type accountType, Status accountStatus,
-			Date dateOfCreation) {
+	public Account(long accountNumber, double accountBalance, String approved, AccountType accountType,
+			Status accountStatus, Date dateOfCreation) {
 		super();
 		this.accountNumber = accountNumber;
 		this.accountBalance = accountBalance;
@@ -99,11 +105,11 @@ public class Account {
 		this.approved = approved;
 	}
 
-	public Type getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(Type accountType) {
+	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
 
@@ -121,6 +127,14 @@ public class Account {
 
 	public void setDateOfCreation(Date dateOfCreation) {
 		this.dateOfCreation = dateOfCreation;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
 	}
 
 	@Override
