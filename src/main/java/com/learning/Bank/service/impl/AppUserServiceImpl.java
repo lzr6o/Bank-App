@@ -169,9 +169,26 @@ public class AppUserServiceImpl implements AppUserService {
 	}
 	
 	@Override
-	public AppUser deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID) {
+	public Beneficiary deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID) {
 		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
 		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
-		
+		List<Beneficiary> beneficiarys = appUser.getBeneficiarys();
+		Beneficiary currentBeneficiary = null;
+		for (Beneficiary beneficiary : beneficiarys) {
+			if (beneficiary.getId() == beneficiaryID) {
+				currentBeneficiary = beneficiary;
+				break;
+			}
+		}
+		if (currentBeneficiary == null) {
+			throw new BankException(BankExceptionEnum.BENEFICIARY_NOT_FOUND);
+		}
+		appUser.getBeneficiarys().remove(currentBeneficiary);
+		appUserRepository.save(appUser);
+		beneficiaryRepository.delete(currentBeneficiary);
+		return currentBeneficiary;
 	}
+	
+	@Override
+	public 
 }

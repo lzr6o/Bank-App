@@ -146,9 +146,20 @@ public class AppUserController {
 	}
 	
 	// Should delete customer beneficiary
-	@DeleteMapping()
+	@DeleteMapping("customer/{customerID}/beneficiary/{beneficiaryID}")
 	@ResponseBody
 	public ApiRestResponse deleteBeneficiary(@PathVariable Integer customerID, @PathVariable Integer beneficiaryID) throws BankException {
+		Beneficiary beneficiary = appUserService.deleteCustomerBeneficiary(customerID, beneficiaryID);
+		if (beneficiary == null) {
+			return ApiRestResponse.error(BankExceptionEnum.BENEFICIARY_DELETE_FAILED);
+		}
+		return ApiRestResponse.success(beneficiary);
+	}
+	
+	// Should transfer the amount from one customer account to another account
+	@PutMapping("customer/transfer")
+	@ResponseBody
+	public ApiRestResponse transfer() {
 		
 	}
 }

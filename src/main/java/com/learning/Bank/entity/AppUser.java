@@ -45,6 +45,14 @@ public class AppUser {
 		this.beneficiarys.add(beneficiary);
 	}
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "app_user_id", referencedColumnName = "id")
+	private List<Payload> payloads;
+	
+	public void addPayload(Payload payload) {
+		this.payloads.add(payload);
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

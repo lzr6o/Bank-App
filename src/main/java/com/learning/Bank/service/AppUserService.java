@@ -29,7 +29,7 @@ public interface AppUserService {
 	
 	List<Beneficiary> getCustomerBeneficiary(Integer customerID);
 
-	AppUser deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID);
+	Beneficiary deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID);
 	
 	
 }
