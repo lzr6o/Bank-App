@@ -10,9 +10,9 @@ import com.learning.Bank.entity.Payload;
 
 public interface AppUserService {
 
-	AppUser register(AppUser appUser);
+	AppUser registerCustomer(AppUser appUser);
 
-	AppUser authenticate(String username, String password);
+	AppUser authenticateCustomer(String username, String password);
 
 	Account createAccount(Integer customerID, AccountType accountType, double accountBalance, String approved);
 
@@ -38,7 +38,8 @@ public interface AppUserService {
 
 	AppUser resetPassword(String username, String password);
 
-	
+	AppUser authenticateStaff(String username, String password);
+
 	
 	
 }

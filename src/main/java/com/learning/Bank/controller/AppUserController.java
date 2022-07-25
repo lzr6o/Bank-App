@@ -33,8 +33,8 @@ public class AppUserController {
 	// to register the user with basic details like
 	@PostMapping("/customer/register")
 	@ResponseBody
-	public ApiRestResponse register(@RequestBody AppUser user) throws BankException {
-		AppUser appUser = appUserService.register(user);
+	public ApiRestResponse registerCustomer(@RequestBody AppUser user) throws BankException {
+		AppUser appUser = appUserService.registerCustomer(user);
 		if (appUser == null) {
 			return ApiRestResponse.error(BankExceptionEnum.REGISTER_FAILED);
 		}
@@ -45,9 +45,9 @@ public class AppUserController {
 	// to validate the customer is registered in the system
 	@PostMapping("/customer/authenticate")
 	@ResponseBody
-	public ApiRestResponse authenticate(@RequestParam("username") String username,
+	public ApiRestResponse authenticateCustomer(@RequestParam("username") String username,
 			@RequestParam("password") String password) throws BankException {
-		AppUser appUser = appUserService.authenticate(username, password);
+		AppUser appUser = appUserService.authenticateCustomer(username, password);
 		if (appUser == null) {
 			return ApiRestResponse.error(BankExceptionEnum.AUTHENTICATE_FAILED);
 		}
@@ -81,7 +81,8 @@ public class AppUserController {
 		return ApiRestResponse.success(account);
 	}
 
-	// to get all the accounts which are opened by the customer the end point should return an array of account, balance, type and status
+	// to get all the accounts which are opened by the customer the end point should
+	// return an array of account, balance, type and status
 	@GetMapping("customer/{customerID}/account")
 	@ResponseBody
 	public ApiRestResponse getAllAccounts(@PathVariable Integer customerID) throws BankException {
@@ -103,7 +104,8 @@ public class AppUserController {
 		return ApiRestResponse.success(appUser);
 	}
 
-	// should update the user customer in the payload which shall match the username and updated the existing customer with the new details
+	// should update the user customer in the payload which shall match the username
+	// and updated the existing customer with the new details
 	@PutMapping("customer/{customerID}")
 	@ResponseBody
 	public ApiRestResponse updateCustomer(@PathVariable Integer customerID, @RequestBody AppUser user)
@@ -115,7 +117,8 @@ public class AppUserController {
 		return ApiRestResponse.success(appUser);
 	}
 
-	// should get the customer account with the specified account number :accountID when valid
+	// should get the customer account with the specified account number :accountID
+	// when valid
 	@GetMapping("customer/{customerID}/account/{accountID}")
 	@ResponseBody
 	public ApiRestResponse getCustomerAccount(@PathVariable Integer customerID, @PathVariable Integer accountID)
@@ -130,14 +133,16 @@ public class AppUserController {
 	// Should add the beneficiary for the customer with valid account number
 	@PostMapping("customer/{customerID}/beneficiary")
 	@ResponseBody
-	public ApiRestResponse addCustomerBeneficiary(@PathVariable Integer customerID, @RequestParam("accountNumber") long accountNumber, @RequestBody Beneficiary beneficiary) throws BankException {
+	public ApiRestResponse addCustomerBeneficiary(@PathVariable Integer customerID,
+			@RequestParam("accountNumber") long accountNumber, @RequestBody Beneficiary beneficiary)
+			throws BankException {
 		AppUser appUser = appUserService.addCustomerBeneficiary(customerID, accountNumber, beneficiary);
 		if (appUser == null) {
 			return ApiRestResponse.error(BankExceptionEnum.BENEFICIARY_ADD_FAILED);
 		}
 		return ApiRestResponse.success(appUser);
 	}
-	
+
 	// Should get all the beneficiary for the given customer id
 	@GetMapping("customer/{customerID}/beneficiary")
 	@ResponseBody
@@ -145,18 +150,19 @@ public class AppUserController {
 		List<Beneficiary> beneficiarys = appUserService.getCustomerBeneficiary(customerID);
 		return ApiRestResponse.success(beneficiarys);
 	}
-	
+
 	// Should delete customer beneficiary
 	@DeleteMapping("customer/{customerID}/beneficiary/{beneficiaryID}")
 	@ResponseBody
-	public ApiRestResponse deleteBeneficiary(@PathVariable Integer customerID, @PathVariable Integer beneficiaryID) throws BankException {
+	public ApiRestResponse deleteBeneficiary(@PathVariable Integer customerID, @PathVariable Integer beneficiaryID)
+			throws BankException {
 		Beneficiary beneficiary = appUserService.deleteCustomerBeneficiary(customerID, beneficiaryID);
 		if (beneficiary == null) {
 			return ApiRestResponse.error(BankExceptionEnum.BENEFICIARY_DELETE_FAILED);
 		}
 		return ApiRestResponse.success(beneficiary);
 	}
-	
+
 	// Should transfer the amount from one customer account to another account
 	@PutMapping("customer/transfer")
 	@ResponseBody
@@ -164,7 +170,7 @@ public class AppUserController {
 		List<Account> accounts = appUserService.transfer(customerID, payload);
 		return ApiRestResponse.success(accounts);
 	}
-	
+
 	// Customer forget security question answer
 	@GetMapping("customer/{username}/forgot/question/answer")
 	@ResponseBody
@@ -172,7 +178,7 @@ public class AppUserController {
 		AppUser appUser = appUserService.validSecurityQuestion(username, answer);
 		return ApiRestResponse.success(appUser);
 	}
-	
+
 	@PutMapping("customer/{username}/forgot")
 	@ResponseBody
 	public ApiRestResponse resetPassword(@PathVariable String username, @RequestParam("password") String password) {
@@ -182,4 +188,18 @@ public class AppUserController {
 		}
 		return ApiRestResponse.success(appUser);
 	}
+
+	// To validate the staff should be able to login to the system with validate username and password
+	@PostMapping("/staff/authenticate")
+	@ResponseBody
+	public ApiRestResponse authenticateStaff(@RequestParam("username") String username,
+			@RequestParam("password") String password) throws BankException {
+		AppUser appUser = appUserService.authenticateCustomer(username, password);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.AUTHENTICATE_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
+	}
+	
+	
 }

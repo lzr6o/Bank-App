@@ -3,6 +3,7 @@ package com.learning.Bank.service.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,15 +42,27 @@ public class AppUserServiceImpl implements AppUserService {
 	PayloadRepository payloadRepository;
 	
 	@Override
-	public AppUser register(AppUser appUser) {
+	public AppUser registerCustomer(AppUser appUser) {
 		Role role = roleRepository.findByName("CUSTOMER");
 		appUser.addRole(role);
 		return appUserRepository.save(appUser);
 	}
 
 	@Override
-	public AppUser authenticate(String username, String password) {
-		return appUserRepository.findByUsernameAndPassword(username, password);
+	public AppUser authenticateCustomer(String username, String password) {
+		AppUser appUser = appUserRepository.findByUsernameAndPassword(username, password);
+		Set<Role> roles = appUser.getRoles();
+		boolean isCustomer = false;
+		for (Role role : roles) {
+			if (role.getName().equals("CUSTOMER")) {
+				isCustomer = true;
+				break;
+			}
+		}
+		if (!isCustomer) {
+			throw new BankException(BankExceptionEnum.AUTHENTICATE_FAILED);
+		}
+		return appUser;
 	}
 
 	@Override
@@ -248,4 +261,23 @@ public class AppUserServiceImpl implements AppUserService {
 		appUserRepository.save(appUser);
 		return appUser;
 	}
+	
+	@Override
+	public AppUser authenticateStaff(String username, String password) {
+		AppUser appUser = appUserRepository.findByUsernameAndPassword(username, password);
+		Set<Role> roles = appUser.getRoles();
+		boolean isCustomer = false;
+		for (Role role : roles) {
+			if (role.getName().equals("STAFF")) {
+				isCustomer = true;
+				break;
+			}
+		}
+		if (!isCustomer) {
+			throw new BankException(BankExceptionEnum.AUTHENTICATE_FAILED);
+		}
+		return appUser;
+	}
+	
+	
 }
