@@ -5,6 +5,8 @@ import java.util.List;
 import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
+import com.learning.Bank.entity.Beneficiary;
+import com.learning.Bank.entity.Payload;
 
 public interface AppUserService {
 
@@ -23,6 +25,16 @@ public interface AppUserService {
 	AppUser updateCustomer(Integer customerID, AppUser appUser);
 
 	Account getCustomerAccount(Integer customerID, Integer accountID);
+
+	AppUser addCustomerBeneficiary(Integer customerID, long accountNumber, Beneficiary beneficiary);
+	
+	List<Beneficiary> getCustomerBeneficiary(Integer customerID);
+
+	Beneficiary deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID);
+
+	List<Account> transfer(Integer customerID, Payload payload);
+
+	AppUser resetPassword(String username, String password);
 	
 	
 }

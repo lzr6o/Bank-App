@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service;
 import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
+import com.learning.Bank.entity.Beneficiary;
+import com.learning.Bank.entity.Payload;
 import com.learning.Bank.entity.Role;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
 import com.learning.Bank.repository.AccountRepository;
 import com.learning.Bank.repository.AppUserRepository;
+import com.learning.Bank.repository.BeneficiaryRepository;
+import com.learning.Bank.repository.PayloadRepository;
 import com.learning.Bank.repository.RoleRepository;
 import com.learning.Bank.service.AppUserService;
 
@@ -30,6 +34,12 @@ public class AppUserServiceImpl implements AppUserService {
 	@Autowired
 	AccountRepository accountRepository;
 
+	@Autowired
+	BeneficiaryRepository beneficiaryRepository;
+	
+	@Autowired
+	PayloadRepository payloadRepository;
+	
 	@Override
 	public AppUser register(AppUser appUser) {
 		Role role = roleRepository.findByName("CUSTOMER");
@@ -133,5 +143,97 @@ public class AppUserServiceImpl implements AppUserService {
 			throw new BankException(BankExceptionEnum.ACCOUNT_NOT_FOUND);
 		}
 		return currentAccount;
+	}
+	
+	@Override
+	public AppUser addCustomerBeneficiary(Integer customerID, long accountNumber, Beneficiary beneficiary) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Account> accounts = appUser.getAccounts();
+		Account currentAccount = null;
+		for (Account account : accounts) {
+			if (account.getAccountNumber() == accountNumber) {
+				currentAccount = account;
+				break;
+			}
+		}
+		if (currentAccount == null) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_NOT_FOUND);
+		}
+		appUser.addBeneficiary(beneficiary);
+		beneficiaryRepository.save(beneficiary);
+		return appUser;
+	}
+	
+	@Override
+	public List<Beneficiary> getCustomerBeneficiary(Integer customerID) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Beneficiary> beneficiarys = appUser.getBeneficiarys();
+		return beneficiarys;
+	}
+	
+	@Override
+	public Beneficiary deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Beneficiary> beneficiarys = appUser.getBeneficiarys();
+		Beneficiary currentBeneficiary = null;
+		for (Beneficiary beneficiary : beneficiarys) {
+			if (beneficiary.getId() == beneficiaryID) {
+				currentBeneficiary = beneficiary;
+				break;
+			}
+		}
+		if (currentBeneficiary == null) {
+			throw new BankException(BankExceptionEnum.BENEFICIARY_NOT_FOUND);
+		}
+		appUser.getBeneficiarys().remove(currentBeneficiary);
+		appUserRepository.save(appUser);
+		beneficiaryRepository.delete(currentBeneficiary);
+		return currentBeneficiary;
+	}
+	
+	@Override
+	public List<Account> transfer(Integer customerID, Payload payload) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Account> accounts = appUser.getAccounts();
+		Account fromAcc = null, toAcc = null;
+		for (Account account : accounts) {
+			if (account.getAccountNumber() == payload.getFromAccNumber()) {
+				fromAcc = account;
+			}
+			if (account.getAccountNumber() == payload.getToAccNumber()) {
+				toAcc = account;
+			}
+			if (fromAcc != null && toAcc != null) {
+				break;
+			}
+		}
+		if (fromAcc == null || toAcc == null) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_NUMBER_WRONG);
+		}
+		if (fromAcc.getAccountBalance() < payload.getAmount()) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_BALANCE_INSUFFICIENT);
+		}
+		fromAcc.setAccountBalance(fromAcc.getAccountBalance() - payload.getAmount());
+		toAcc.setAccountBalance(toAcc.getAccountBalance() + payload.getAmount());
+		accountRepository.save(fromAcc);
+		accountRepository.save(toAcc);
+		appUser.addPayload(payload);
+		appUserRepository.save(appUser);
+		return accounts;
+	}
+	
+	@Override
+	public AppUser resetPassword(String username, String password) {
+		AppUser appUser = appUserRepository.findByUsername(username);
+		if (appUser == null) {
+			throw new BankException(BankExceptionEnum.USER_NOT_FIND);
+		}
+		appUser.setPassword(password);
+		appUserRepository.save(appUser);
+		return appUser;
 	}
 }

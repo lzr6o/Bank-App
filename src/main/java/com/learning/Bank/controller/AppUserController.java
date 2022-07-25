@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -16,6 +17,8 @@ import com.learning.Bank.common.ApiRestResponse;
 import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
+import com.learning.Bank.entity.Beneficiary;
+import com.learning.Bank.entity.Payload;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
 import com.learning.Bank.service.AppUserService;
@@ -125,9 +128,57 @@ public class AppUserController {
 	}
 
 	// Should add the beneficiary for the customer with valid account number
-	@PostMapping("customer/:customerID/beneficiary")
+	@PostMapping("customer/{customerID}/beneficiary")
+	@ResponseBody
+	public ApiRestResponse addCustomerBeneficiary(@PathVariable Integer customerID, @RequestParam("accountNumber") long accountNumber, @RequestBody Beneficiary beneficiary) throws BankException {
+		AppUser appUser = appUserService.addCustomerBeneficiary(customerID, accountNumber, beneficiary);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.BENEFICIARY_ADD_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
+	}
+	
+	// Should get all the beneficiary for the given customer id
+	@GetMapping("customer/{customerID}/beneficiary")
 	@ResponseBody
 	public ApiRestResponse addBeneficiary(@PathVariable Integer customerID) throws BankException {
-		
+		List<Beneficiary> beneficiarys = appUserService.getCustomerBeneficiary(customerID);
+		return ApiRestResponse.success(beneficiarys);
+	}
+	
+	// Should delete customer beneficiary
+	@DeleteMapping("customer/{customerID}/beneficiary/{beneficiaryID}")
+	@ResponseBody
+	public ApiRestResponse deleteBeneficiary(@PathVariable Integer customerID, @PathVariable Integer beneficiaryID) throws BankException {
+		Beneficiary beneficiary = appUserService.deleteCustomerBeneficiary(customerID, beneficiaryID);
+		if (beneficiary == null) {
+			return ApiRestResponse.error(BankExceptionEnum.BENEFICIARY_DELETE_FAILED);
+		}
+		return ApiRestResponse.success(beneficiary);
+	}
+	
+	// Should transfer the amount from one customer account to another account
+	@PutMapping("customer/transfer")
+	@ResponseBody
+	public ApiRestResponse transfer(@RequestParam("customerID") Integer customerID, @RequestBody Payload payload) {
+		List<Account> accounts = appUserService.transfer(customerID, payload);
+		return ApiRestResponse.success(accounts);
+	}
+	
+//	// Customer forget security question answer
+//	@GetMapping("customer/{username}/forgot/question/answer")
+//	@ResponseBody
+////	public ApiRestResponse validSecurity() {
+////		
+////	}
+	
+	@PutMapping("customer/{username}/forgot")
+	@ResponseBody
+	public ApiRestResponse resetPassword(@PathVariable String username, @RequestParam("password") String password) {
+		AppUser appUser = appUserService.resetPassword(username, password);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.PASSWORD_UPDATE_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
 	}
 }
