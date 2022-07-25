@@ -11,7 +11,8 @@ public enum BankExceptionEnum {
 	ACCOUNT_APPROVED_FAILED(106, "Account approved failed"),
 	ACCOUNT_NOT_FOUND(107, "Account not found"),
 	USER_UPDATE_FAILED(108, "User update failed"),
-	USER_INFO_NOT_MATCH(109, "User information not match");
+	USER_INFO_NOT_MATCH(109, "User information not match"),
+	BENEFICIARY_ADD_FAILED(110, "Beneficiary add failed");
 
 	Integer code;
 	String msg;

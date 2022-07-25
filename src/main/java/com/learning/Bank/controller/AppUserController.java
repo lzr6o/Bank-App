@@ -16,6 +16,7 @@ import com.learning.Bank.common.ApiRestResponse;
 import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
+import com.learning.Bank.entity.Beneficiary;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
 import com.learning.Bank.service.AppUserService;
@@ -125,9 +126,23 @@ public class AppUserController {
 	}
 
 	// Should add the beneficiary for the customer with valid account number
-	@PostMapping("customer/:customerID/beneficiary")
+	@PostMapping("customer/{customerID}/beneficiary")
+	@ResponseBody
+	public ApiRestResponse addCustomerBeneficiary(@PathVariable Integer customerID, @RequestParam("accountNumber") long accountNumber, @RequestBody Beneficiary beneficiary) throws BankException {
+		AppUser appUser = appUserService.addCustomerBeneficiary(customerID, accountNumber, beneficiary);
+		if (appUser == null) {
+			return ApiRestResponse.error(BankExceptionEnum.BENEFICIARY_ADD_FAILED);
+		}
+		return ApiRestResponse.success(appUser);
+	}
+	
+	// Should get all the beneficiary for the given customer id
+	@GetMapping("customer/{customerID}/beneficiary")
 	@ResponseBody
 	public ApiRestResponse addBeneficiary(@PathVariable Integer customerID) throws BankException {
-		
+		List<Beneficiary> beneficiarys = appUserService.getCustomerBeneficiary(customerID);
+		return ApiRestResponse.success(beneficiarys);
 	}
+	
+	
 }

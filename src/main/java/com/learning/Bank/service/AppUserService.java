@@ -5,6 +5,7 @@ import java.util.List;
 import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
+import com.learning.Bank.entity.Beneficiary;
 
 public interface AppUserService {
 
@@ -23,6 +24,8 @@ public interface AppUserService {
 	AppUser updateCustomer(Integer customerID, AppUser appUser);
 
 	Account getCustomerAccount(Integer customerID, Integer accountID);
+
+	AppUser addCustomerBeneficiary(Integer customerID, long accountNumber, Beneficiary beneficiary);
 	
-	
+	List<Beneficiary> getCustomerBeneficiary(Integer customerID);
 }
