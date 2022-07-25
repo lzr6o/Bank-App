@@ -227,6 +227,18 @@ public class AppUserServiceImpl implements AppUserService {
 	}
 	
 	@Override
+	public AppUser validSecurityQuestion(String username, String answer) {
+		AppUser appUser = appUserRepository.findByUsername(username);
+		if (appUser == null) {
+			throw new BankException(BankExceptionEnum.USER_NOT_FIND);
+		}
+		if (!answer.equals(appUser.getSecretAnswer())) {
+			throw new BankException(BankExceptionEnum.USER_INFO_NOT_MATCH);
+		}
+		return appUser;
+	}
+	
+	@Override
 	public AppUser resetPassword(String username, String password) {
 		AppUser appUser = appUserRepository.findByUsername(username);
 		if (appUser == null) {

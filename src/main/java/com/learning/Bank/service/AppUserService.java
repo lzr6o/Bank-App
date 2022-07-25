@@ -33,8 +33,12 @@ public interface AppUserService {
 	Beneficiary deleteCustomerBeneficiary(Integer customerID, Integer beneficiaryID);
 
 	List<Account> transfer(Integer customerID, Payload payload);
+	
+	AppUser validSecurityQuestion(String username, String answer);
 
 	AppUser resetPassword(String username, String password);
+
+	
 	
 	
 }

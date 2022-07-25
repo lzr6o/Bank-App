@@ -168,8 +168,9 @@ public class AppUserController {
 	// Customer forget security question answer
 	@GetMapping("customer/{username}/forgot/question/answer")
 	@ResponseBody
-	public ApiRestResponse validSecurity() {
-		
+	public ApiRestResponse validSecurityQuestion(@PathVariable String username, @RequestParam("answer") String answer) {
+		AppUser appUser = appUserService.validSecurityQuestion(username, answer);
+		return ApiRestResponse.success(appUser);
 	}
 	
 	@PutMapping("customer/{username}/forgot")
