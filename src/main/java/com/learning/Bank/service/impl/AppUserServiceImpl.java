@@ -11,6 +11,7 @@ import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
 import com.learning.Bank.entity.Beneficiary;
+import com.learning.Bank.entity.Payload;
 import com.learning.Bank.entity.Role;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
@@ -190,5 +191,28 @@ public class AppUserServiceImpl implements AppUserService {
 	}
 	
 	@Override
-	public 
+	public List<Account> transfer(Integer customerID, Payload payload) {
+		Optional<AppUser> optionalAppUser = appUserRepository.findById(customerID);
+		AppUser appUser = optionalAppUser.orElseThrow(() -> new BankException(BankExceptionEnum.USER_NOT_FIND));
+		List<Account> accounts = appUser.getAccounts();
+		Account fromAcc = null, toAcc = null;
+		for (Account account : accounts) {
+			if (account.getAccountNumber() == payload.getFromAccNumber()) {
+				fromAcc = account;
+			}
+			if (account.getAccountNumber() == payload.getToAccNumber()) {
+				toAcc = account;
+			}
+			if (fromAcc != null && toAcc != null) {
+				break;
+			}
+		}
+		if (fromAcc == null || toAcc == null) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_NUMBER_WRONG);
+		}
+		if (fromAcc.getAccountBalance() < payload.getAmount()) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_BALANCE_INSUFFICIENT);
+		}
+		return accounts;
+	}
 }

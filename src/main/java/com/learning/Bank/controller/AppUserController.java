@@ -18,6 +18,7 @@ import com.learning.Bank.entity.Account;
 import com.learning.Bank.entity.AccountType;
 import com.learning.Bank.entity.AppUser;
 import com.learning.Bank.entity.Beneficiary;
+import com.learning.Bank.entity.Payload;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
 import com.learning.Bank.service.AppUserService;
@@ -159,7 +160,7 @@ public class AppUserController {
 	// Should transfer the amount from one customer account to another account
 	@PutMapping("customer/transfer")
 	@ResponseBody
-	public ApiRestResponse transfer() {
+	public ApiRestResponse transfer(@RequestParam("customerID") Integer customerID, @RequestBody Payload payload) {
 		
 	}
 }
