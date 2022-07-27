@@ -17,3 +17,8 @@ INSERT INTO `bank`.`transaction` (`id`, `amount`, `card_type`, `date`, `referenc
 INSERT INTO `bank`.`beneficiary` (`id`, `account_status`, `beneficiary_account_number`, `beneficiary_name`, `app_user_id`) VALUES ('1', 'ENABLE', '1887415157', 'LinLin', '1');
 INSERT INTO `bank`.`beneficiary` (`id`, `account_status`, `beneficiary_account_number`, `beneficiary_name`, `app_user_id`) VALUES ('2', 'DISABLE', '5201314', 'HongTang', '1');
 
+
+
+
+
+INSERT INTO `bank`.`appuser` (`id`, `fullname`, `password`, `username`, `aadhar`, `pan`, `phone`, `secret_answer`, `secret_question`) VALUES ('4', 'Amit', 'Amit123', 'Yada', 'aadhar', 'pan', '646-775-3214', 'Cogent University', 'Where do I work?');

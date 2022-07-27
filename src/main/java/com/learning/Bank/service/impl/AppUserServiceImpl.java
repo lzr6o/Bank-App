@@ -266,14 +266,14 @@ public class AppUserServiceImpl implements AppUserService {
 	public AppUser authenticateStaff(String username, String password) {
 		AppUser appUser = appUserRepository.findByUsernameAndPassword(username, password);
 		Set<Role> roles = appUser.getRoles();
-		boolean isCustomer = false;
+		boolean isStaff = false;
 		for (Role role : roles) {
 			if (role.getName().equals("STAFF")) {
-				isCustomer = true;
+				isStaff = true;
 				break;
 			}
 		}
-		if (!isCustomer) {
+		if (!isStaff) {
 			throw new BankException(BankExceptionEnum.AUTHENTICATE_FAILED);
 		}
 		return appUser;
