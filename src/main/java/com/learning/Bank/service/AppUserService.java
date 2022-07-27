@@ -40,6 +40,8 @@ public interface AppUserService {
 
 	AppUser authenticateStaff(String username, String password);
 
+	Account staffGetAccount(long accountNo);
+
 	
 	
 }

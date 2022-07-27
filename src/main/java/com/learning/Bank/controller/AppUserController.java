@@ -188,6 +188,17 @@ public class AppUserController {
 	
 	// Role: Staff
 	// To get the statement of particular account, given the account id
-	//@GetMapping("/staff/account/{accountNo}")
-	//public ApiRestResponse 
+	@GetMapping("/staff/account/{accountNo}")
+	public ApiRestResponse staffGetAccount(@PathVariable long accountNo) throws BankException {
+		Account account = appUserService.staffGetAccount(accountNo);
+		if (account == null) {
+			return ApiRestResponse.error(BankExceptionEnum.ACCOUNT_NOT_FOUND);
+		}
+		return ApiRestResponse.success(account);
+	}
+	
+	// Role: Staff
+	// List all the beneficiary to be approved
+	@GetMapping("/staff/beneficiary")
+	public 
 }

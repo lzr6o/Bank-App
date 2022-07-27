@@ -279,5 +279,14 @@ public class AppUserServiceImpl implements AppUserService {
 		return appUser;
 	}
 	
+	@Override
+	public Account staffGetAccount(long accountNo) {
+		Account account = accountRepository.findByAccountNumber(accountNo);
+		if (account == null) {
+			throw new BankException(BankExceptionEnum.ACCOUNT_NOT_FOUND);
+		}
+		return account;
+	}
+	
 	
 }
