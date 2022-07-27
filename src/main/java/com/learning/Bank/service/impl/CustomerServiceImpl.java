@@ -21,10 +21,10 @@ import com.learning.Bank.repository.AppUserRepository;
 import com.learning.Bank.repository.BeneficiaryRepository;
 import com.learning.Bank.repository.PayloadRepository;
 import com.learning.Bank.repository.RoleRepository;
-import com.learning.Bank.service.AppUserService;
+import com.learning.Bank.service.CustomerService;
 
 @Service
-public class AppUserServiceImpl implements AppUserService {
+public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	AppUserRepository appUserRepository;
@@ -288,5 +288,8 @@ public class AppUserServiceImpl implements AppUserService {
 		return account;
 	}
 	
-	
+	//@Override
+	//public List<Beneficiary> staffGetBeneficiary() {
+	//	List<Beneficiary> beneficiarys = 
+	//}
 }

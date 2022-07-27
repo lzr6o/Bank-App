@@ -21,13 +21,13 @@ import com.learning.Bank.entity.Beneficiary;
 import com.learning.Bank.entity.Payload;
 import com.learning.Bank.exception.BankException;
 import com.learning.Bank.exception.BankExceptionEnum;
-import com.learning.Bank.service.AppUserService;
+import com.learning.Bank.service.CustomerService;
 
 @RestController
-public class AppUserController {
+public class CustomerController {
 
 	@Autowired
-	AppUserService appUserService;
+	CustomerService appUserService;
 
 	// customer registration
 	// to register the user with basic details like
@@ -199,6 +199,8 @@ public class AppUserController {
 	
 	// Role: Staff
 	// List all the beneficiary to be approved
-	@GetMapping("/staff/beneficiary")
-	public 
+	//@GetMapping("/staff/beneficiary")
+	//public ApiRestResponse staffGetBeneficiary() throws BankException {
+		
+	//}
 }

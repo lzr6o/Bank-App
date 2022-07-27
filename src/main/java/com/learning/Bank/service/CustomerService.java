@@ -8,7 +8,7 @@ import com.learning.Bank.entity.AppUser;
 import com.learning.Bank.entity.Beneficiary;
 import com.learning.Bank.entity.Payload;
 
-public interface AppUserService {
+public interface CustomerService {
 
 	AppUser registerCustomer(AppUser appUser);
 
